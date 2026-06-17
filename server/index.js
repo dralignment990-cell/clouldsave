@@ -10,6 +10,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { randomUUID } from "node:crypto";
 import { buildPlan } from "./generators.js";
+import { generateMusic, musicConfig } from "./music.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -72,7 +73,31 @@ app.get("/api/example/longing", (_req, res) => {
     letter: read("letter.md"),
     image: localImage ? "/media/longing/image.png" : media.image?.url || null,
     video: localVideo ? "/media/longing/video.mp4" : media.video?.url || null,
+    audio: media.audio?.url || null,
   });
+});
+
+/**
+ * POST /api/music
+ * body: { style, lyrics, title }
+ * SUNO_API_KEY 있으면 Suno로 보컬 곡 생성, 없으면 데모 오디오 반환.
+ */
+app.post("/api/music", async (req, res) => {
+  const { style = "", lyrics = "", title = "Music Letter" } = req.body || {};
+  // 데모 폴백용 오디오 URL (그리움 예제)
+  let demoAudioUrl = null;
+  try {
+    const m = JSON.parse(fs.readFileSync(path.join(EXAMPLES, "longing", "media.json"), "utf8"));
+    demoAudioUrl = m.audio?.url || null;
+  } catch {
+    /* noop */
+  }
+  try {
+    const result = await generateMusic({ style, lyrics, title, demoAudioUrl });
+    res.json({ ...result, config: musicConfig });
+  } catch (e) {
+    res.status(500).json({ error: String(e.message || e) });
+  }
 });
 
 /**

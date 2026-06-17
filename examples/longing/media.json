@@ -13,5 +13,12 @@
     "sound": true,
     "job_id": "34caeb2f-4ff6-4ea5-9d05-35dcd632c069",
     "url": null
+  },
+  "audio": {
+    "engine": "higgsfield:sonilo_music",
+    "note": "데모 음악(instrumental). 가사 보컬 곡은 Suno API 연동 시 생성.",
+    "duration": 30,
+    "job_id": "8115a0ca-5cc5-4c48-b627-7c5c53d914c6",
+    "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Ehb0pJX3jTx2KyxLmSmtUAC7t1/hf_20260617_054550_8115a0ca-5cc5-4c48-b627-7c5c53d914c6.m4a"
   }
 }

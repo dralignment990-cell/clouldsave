@@ -25,6 +25,7 @@
 |------|------|
 | 가사 | [`lyrics.md`](examples/longing/lyrics.md) — *"보고 싶다는 말"* |
 | Suno 프롬프트 | [`suno_prompt.txt`](examples/longing/suno_prompt.txt) |
+| 음악 (데모) | `media.json` audio · Higgsfield `sonilo_music`, 30s instrumental |
 | 이미지 프롬프트 | [`image_prompt.txt`](examples/longing/image_prompt.txt) |
 | 커버 이미지 | `image.png` (Higgsfield · Nano Banana Pro, 16:9 2K) |
 | 영상 프롬프트 | [`video_prompt.txt`](examples/longing/video_prompt.txt) |
@@ -68,16 +69,28 @@ npm run dev:client
 
 ---
 
+## 🎵 음악 연동 (구현됨)
+
+`POST /api/music` 로 음악을 생성합니다. (`server/music.js`)
+
+- **Suno API**: Suno 공식 셀프서비스 키는 아직 없어, `sunoapi.org` / AIMLAPI
+  같은 **게이트웨이**(Suno v5/v4.5 호환)를 사용하는 것이 표준입니다.
+  `server/.env` 에 `SUNO_API_KEY` 를 설정하면 **가사 기반 보컬 곡**을 생성합니다.
+- **폴백(데모)**: 키가 없으면 `examples/longing/media.json` 의 데모 오디오를
+  반환합니다. 데모 음악은 **Higgsfield `sonilo_music`** 로 실제 생성한
+  30초 instrumental 입니다.
+
+```bash
+cp server/.env.example server/.env   # SUNO_API_KEY 입력 (선택)
+```
+
 ## 다음 단계 (연동 예정)
 
-현재 가사/편지는 템플릿 + 무드 팔레트로 즉시 동작합니다. 다음 단계에서 실제 API로 교체:
-
-- **가사 / 편지** → Anthropic Claude API (`claude-opus-4-8`)
-- **음악** → Suno API (`suno.style` + `lyrics` 전달, 오디오 파일 수신)
+- **가사 / 편지** → Anthropic Claude API (`claude-opus-4-8`) 로 매번 새 창작
 - **이미지** → Higgsfield `generate_image` (`nano_banana_pro`)
 - **영상** → Higgsfield `generate_video` (`kling2_6`, start_image)
 - **발송** → 이메일(SendGrid) / 카카오 알림톡 / SMS
 - **음악+영상 합성** → ffmpeg 로 영상 위에 곡 입혀 단일 mp4 제작
 
-연동 지점은 `server/generators.js` 상단 `INTEGRATION` 주석과
-`server/index.js` 의 `/api/send` 주석에 표시되어 있습니다.
+연동 지점은 `server/generators.js` 상단 `INTEGRATION` 주석,
+`server/music.js`, `server/index.js` 의 `/api/send` 주석에 표시되어 있습니다.

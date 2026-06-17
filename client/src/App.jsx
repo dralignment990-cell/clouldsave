@@ -11,8 +11,10 @@ const PRESETS = [
 export default function App() {
   const [form, setForm] = useState({ emotion: "", situation: "", recipient: "" });
   const [plan, setPlan] = useState(null);
-  const [media, setMedia] = useState({ image: null, video: null });
+  const [media, setMedia] = useState({ image: null, video: null, audio: null });
   const [loading, setLoading] = useState(false);
+  const [musicLoading, setMusicLoading] = useState(false);
+  const [music, setMusic] = useState(null);
   const [sent, setSent] = useState(null);
   const [error, setError] = useState(null);
 
@@ -48,11 +50,29 @@ export default function App() {
         letter: { body: ex.letter },
         _raw: true,
       });
-      setMedia({ image: ex.image, video: ex.video });
+      setMedia({ image: ex.image, video: ex.video, audio: ex.audio });
+      if (ex.audio) setMusic({ provider: "demo", status: "completed", audioUrl: ex.audio });
     } catch (e) {
       setError(e.error || "데모를 불러오지 못했습니다.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  // 음악 생성 (Suno 키 있으면 보컬 곡, 없으면 데모 오디오)
+  const makeMusic = async () => {
+    setError(null);
+    setMusicLoading(true);
+    try {
+      const style = plan?._raw ? "" : plan?.suno?.style || "";
+      const lyrics = plan?.lyrics?.body || "";
+      const r = await api.music({ style, lyrics, title: plan?.lyrics?.title });
+      setMusic(r);
+      if (r.audioUrl) setMedia((m) => ({ ...m, audio: r.audioUrl }));
+    } catch (e) {
+      setError(e.error || "음악 생성에 실패했습니다.");
+    } finally {
+      setMusicLoading(false);
     }
   };
 
@@ -108,7 +128,7 @@ export default function App() {
             <PromptBlock label="Lyrics" text={plan.lyrics?.body} />
           </Step>
 
-          <Step n="3" title="Suno 음악 프롬프트">
+          <Step n="3" title="음악 — Suno 프롬프트 & 생성">
             {plan._raw ? (
               <PromptBlock label="Suno" text={plan.suno} />
             ) : (
@@ -117,6 +137,23 @@ export default function App() {
                 <PromptBlock label="제외(Exclude)" text={plan.suno?.exclude} />
                 <p className="muted">{plan.suno?.howto}</p>
               </>
+            )}
+            <div className="actions">
+              <button className="primary" onClick={makeMusic} disabled={musicLoading}>
+                {musicLoading ? "🎵 작곡 중…" : "🎧 음악 생성"}
+              </button>
+            </div>
+            {music?.audioUrl && (
+              <div className="audio">
+                <audio src={music.audioUrl} controls />
+                <p className="muted">
+                  엔진: {music.provider === "suno" ? "Suno" : "데모(Higgsfield)"}
+                  {music.note ? ` · ${music.note}` : ""}
+                </p>
+              </div>
+            )}
+            {music && !music.audioUrl && (
+              <p className="muted">{music.note || music.error}</p>
             )}
           </Step>
 

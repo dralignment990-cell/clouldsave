@@ -93,6 +93,9 @@ pre { margin: 0; padding: 14px; white-space: pre-wrap; word-break: break-word; f
 .media { border-radius: 14px; overflow: hidden; border: 1px solid var(--line); margin-bottom: 10px; }
 .media img, .media video { width: 100%; display: block; }
 
+.audio { margin-top: 10px; }
+.audio audio { width: 100%; }
+
 .letter {
   background: linear-gradient(180deg, #20283f, #1a2136);
   border: 1px solid var(--line); border-radius: 14px; padding: 22px;

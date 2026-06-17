@@ -14,6 +14,13 @@ export const api = {
 
   example: () => fetch("/api/example/longing").then(json),
 
+  music: (body) =>
+    fetch("/api/music", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    }).then(json),
+
   send: (body) =>
     fetch("/api/send", {
       method: "POST",
