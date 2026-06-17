@@ -7,13 +7,15 @@
 
 ```
 감정/상황 입력
-   └─▶ 1. 가사 생성 (한국어 발라드, 구조 태그 포함)
-        └─▶ 2. Suno 음악 프롬프트 (Style + Lyrics)
-             └─▶ 3. 이미지 프롬프트 + 커버 이미지 생성
-                  └─▶ 4. 영상 프롬프트 + 무빙 커버 영상 제작·저장
-                       └─▶ 5. 감정을 담은 짧은 편지
-                            └─▶ 6. 음악 + 영상 + 편지 발송
+   └─▶ 1. 가사 생성 (한국어, 구조 태그 포함)
+        └─▶ 2. 음악 생성 (Suno 프롬프트 / Higgsfield 오디오)
+             └─▶ 3. 제목이 박힌 커버 이미지 생성
+                  └─▶ 4. 감정을 담은 짧은 편지
+                       └─▶ 5. 이메일 주소로 음악편지 발송
 ```
+
+> **음악편지 한 장 구성:** ①제목이 박힌 이미지 → ②음원 플레이어 → ③편지 본문 → ④이메일 발송.
+> (동영상은 포맷에서 제외)
 
 ---
 
@@ -95,12 +97,26 @@ cp server/.env.example server/.env   # SUNO_API_KEY 입력 (선택)
 cp server/.env.example server/.env   # ANTHROPIC_API_KEY 입력 (선택)
 ```
 
+## 📧 이메일 발송 (구현됨)
+
+`POST /api/send` 는 받는 사람 이메일로 음악편지(제목 이미지 + 음원 링크 + 편지)를
+보냅니다. (`server/mailer.js`, nodemailer) **SMTP 환경변수**가 있으면 실제 발송,
+없으면 미리보기 HTML을 반환합니다.
+
+```bash
+# server/.env 에 SMTP 설정 시 실제 발송
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=you@gmail.com
+SMTP_PASS=앱비밀번호
+MAIL_FROM=you@gmail.com
+```
+
 ## 다음 단계 (연동 예정)
 
-- **이미지** → Higgsfield `generate_image` (`nano_banana_pro`)
-- **영상** → Higgsfield `generate_video` (`kling2_6`, start_image)
-- **발송** → 이메일(SendGrid) / 카카오 알림톡 / SMS
-- **음악+영상 합성** → ffmpeg 로 영상 위에 곡 입혀 단일 mp4 제작
+- **이미지** → Higgsfield `generate_image` (`nano_banana_pro`, 제목 텍스트 포함)
+- **음악 보컬 곡** → Suno 게이트웨이(`SUNO_API_KEY`) 연동
+- **발송 채널 확장** → 카카오 알림톡 / SMS
 
-연동 지점은 `server/generators.js` 상단 `INTEGRATION` 주석,
-`server/music.js`, `server/index.js` 의 `/api/send` 주석에 표시되어 있습니다.
+연동 지점: `server/claude.js`(가사·편지), `server/music.js`(음악),
+`server/mailer.js`(이메일), `server/generators.js`(템플릿 폴백).

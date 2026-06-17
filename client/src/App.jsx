@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { api } from "./api.js";
-import { PromptBlock, Step, MediaPreview } from "./components/Pieces.jsx";
+import { PromptBlock } from "./components/Pieces.jsx";
 
 const PRESETS = [
   { emotion: "그리움 / 보고싶음", situation: "멀리 있어 자주 못 보는 사람에게" },
@@ -9,9 +9,9 @@ const PRESETS = [
 ];
 
 export default function App() {
-  const [form, setForm] = useState({ emotion: "", situation: "", recipient: "" });
+  const [form, setForm] = useState({ emotion: "", situation: "", recipient: "", email: "" });
   const [plan, setPlan] = useState(null);
-  const [media, setMedia] = useState({ image: null, video: null, audio: null });
+  const [media, setMedia] = useState({ image: null, audio: null });
   const [loading, setLoading] = useState(false);
   const [musicLoading, setMusicLoading] = useState(false);
   const [music, setMusic] = useState(null);
@@ -34,24 +34,23 @@ export default function App() {
     }
   };
 
-  // 실제 생성해 저장한 "그리움" 데모 불러오기 (이미지+영상 포함)
+  // 실제 생성해 저장한 데모 불러오기 (제목 이미지 + 음악)
   const loadDemo = async () => {
     setError(null);
     setLoading(true);
     try {
       const ex = await api.example();
-      setForm({ emotion: ex.meta.emotion, situation: "멀리 있어 자주 못 보는 사람에게", recipient: "" });
+      setForm({ ...form, emotion: ex.meta.emotion, situation: "멀리 있어 자주 못 보는 사람에게" });
       setPlan({
         meta: ex.meta,
         lyrics: { title: ex.meta.title, body: ex.lyrics },
         suno: ex.sunoPrompt,
         imagePrompt: ex.imagePrompt,
-        videoPrompt: ex.videoPrompt,
         letter: { body: ex.letter },
         _raw: true,
       });
-      setMedia({ image: ex.image, video: ex.video, audio: ex.audio });
-      if (ex.audio) setMusic({ provider: "demo", status: "completed", audioUrl: ex.audio });
+      setMedia({ image: ex.image, audio: ex.audio });
+      if (ex.audio) setMusic({ provider: "demo", audioUrl: ex.audio });
     } catch (e) {
       setError(e.error || "데모를 불러오지 못했습니다.");
     } finally {
@@ -59,7 +58,6 @@ export default function App() {
     }
   };
 
-  // 음악 생성 (Suno 키 있으면 보컬 곡, 없으면 데모 오디오)
   const makeMusic = async () => {
     setError(null);
     setMusicLoading(true);
@@ -76,21 +74,33 @@ export default function App() {
     }
   };
 
+  // 이메일로 음악편지 발송
   const send = async () => {
     setError(null);
+    setSent(null);
+    const l = plan?.letter || {};
     try {
-      const r = await api.send({ to: form.recipient || "소중한 사람", plan });
+      const r = await api.send({
+        email: form.email,
+        title: plan?.lyrics?.title || "음악편지",
+        emotion: plan?.meta?.mood || plan?.meta?.emotion || form.emotion,
+        imageUrl: media.image || "",
+        audioUrl: media.audio || "",
+        letter: { open: l.open, body: l.body, close: l.close },
+      });
       setSent(r);
     } catch (e) {
       setError(e.error || "발송에 실패했습니다.");
     }
   };
 
+  const letter = plan?.letter || {};
+
   return (
     <div className="app">
       <header className="hero">
         <h1>🎵 Music Letter</h1>
-        <p>감정을 들려주면, 그 마음을 노래·그림·영상·편지로 만들어 보내드려요.</p>
+        <p>감정을 들려주면, 그 마음을 노래·그림·편지로 만들어 이메일로 보내드려요.</p>
       </header>
 
       <section className="card">
@@ -103,17 +113,17 @@ export default function App() {
           ))}
         </div>
         <label>감정</label>
-        <input value={form.emotion} onChange={set("emotion")} placeholder="예: 그리움 / 보고싶음" />
+        <input value={form.emotion} onChange={set("emotion")} placeholder="예: 응원 / 새로운 시작" />
         <label>상황 (선택)</label>
-        <input value={form.situation} onChange={set("situation")} placeholder="예: 멀리 있어 자주 못 보는 친구에게" />
+        <input value={form.situation} onChange={set("situation")} placeholder="예: 새 도전을 앞둔 친구에게" />
         <label>받는 사람 (선택)</label>
-        <input value={form.recipient} onChange={set("recipient")} placeholder="예: 지민" />
+        <input value={form.recipient} onChange={set("recipient")} placeholder="예: 민준" />
         <div className="actions">
           <button className="primary" onClick={createPlan} disabled={loading}>
             {loading ? "만드는 중…" : "음악편지 만들기"}
           </button>
           <button className="ghost" onClick={loadDemo} disabled={loading}>
-            🌙 그리움 데모 보기 (실제 생성 결과)
+            🌙 데모 보기 (실제 생성 결과)
           </button>
         </div>
         {error && <p className="error">{error}</p>}
@@ -121,81 +131,78 @@ export default function App() {
 
       {plan && (
         <section className="card result">
-          <h2>{plan.lyrics?.title || "음악편지"}</h2>
-          <p className="muted">감정: {plan.meta?.mood || plan.meta?.emotion}</p>
+          {/* 완성된 음악편지 미리보기: 제목 이미지 → 음원 → 편지 */}
+          <div className="postcard">
+            <div className="cover">
+              {media.image ? <img src={media.image} alt={plan.lyrics?.title} /> : <div className="cover-empty" />}
+              <div className="cover-text">
+                <div className="cover-emotion">{plan.meta?.mood || plan.meta?.emotion}</div>
+                <div className="cover-title">{plan.lyrics?.title || "음악편지"}</div>
+              </div>
+            </div>
 
-          <Step n="2" title="가사">
-            <PromptBlock label="Lyrics" text={plan.lyrics?.body} />
-          </Step>
-
-          <Step n="3" title="음악 — Suno 프롬프트 & 생성">
-            {plan._raw ? (
-              <PromptBlock label="Suno" text={plan.suno} />
-            ) : (
-              <>
-                <PromptBlock label="Style of Music" text={plan.suno?.style} />
-                <PromptBlock label="제외(Exclude)" text={plan.suno?.exclude} />
-                <p className="muted">{plan.suno?.howto}</p>
-              </>
+            {media.audio && (
+              <div className="audio">
+                <audio src={media.audio} controls />
+              </div>
             )}
+
+            <div className="letter">
+              {letter.open && <p className="letter-open">{letter.open}</p>}
+              <p className="letter-body">{letter.body}</p>
+              {letter.close && <p className="letter-close">{letter.close}</p>}
+            </div>
+          </div>
+
+          {/* 음악이 아직 없으면 생성 버튼 */}
+          {!media.audio && (
             <div className="actions">
               <button className="primary" onClick={makeMusic} disabled={musicLoading}>
                 {musicLoading ? "🎵 작곡 중…" : "🎧 음악 생성"}
               </button>
             </div>
-            {music?.audioUrl && (
-              <div className="audio">
-                <audio src={music.audioUrl} controls />
-                <p className="muted">
-                  엔진: {music.provider === "suno" ? "Suno" : "데모(Higgsfield)"}
-                  {music.note ? ` · ${music.note}` : ""}
-                </p>
-              </div>
-            )}
-            {music && !music.audioUrl && (
-              <p className="muted">{music.note || music.error}</p>
-            )}
-          </Step>
+          )}
 
-          <Step n="4" title="이미지">
-            <MediaPreview image={media.image} />
+          {/* 이메일로 발송 */}
+          <div className="sendbox">
+            <label>받는 사람 이메일</label>
+            <div className="send-row">
+              <input
+                type="email"
+                value={form.email}
+                onChange={set("email")}
+                placeholder="name@example.com"
+              />
+              <button className="primary" onClick={send} disabled={!form.email}>
+                💌 편지 보내기
+              </button>
+            </div>
+            {sent && (
+              <p className={sent.sent ? "success" : "muted"}>
+                {sent.sent ? "✓ " : "ℹ️ "}
+                {sent.message}
+              </p>
+            )}
+          </div>
+
+          {/* 참고용 프롬프트 (접어둠) */}
+          <details className="prompts">
+            <summary>제작에 쓰인 프롬프트 보기 (가사·Suno·이미지)</summary>
+            <PromptBlock label="가사" text={plan.lyrics?.body} />
+            <PromptBlock
+              label="Suno Style"
+              text={plan._raw ? plan.suno : plan.suno?.style}
+            />
             <PromptBlock
               label="Image Prompt"
               text={plan._raw ? plan.imagePrompt : plan.imagePrompt?.prompt}
             />
-          </Step>
-
-          <Step n="5" title="영상">
-            <MediaPreview video={media.video} image={media.image} />
-            <PromptBlock
-              label="Video Prompt"
-              text={plan._raw ? plan.videoPrompt : plan.videoPrompt?.prompt}
-            />
-          </Step>
-
-          <Step n="6" title="편지">
-            <div className="letter">
-              {plan.letter?.open && <p className="letter-open">{plan.letter.open}</p>}
-              <p className="letter-body">{plan.letter?.body}</p>
-              {plan.letter?.close && <p className="letter-close">{plan.letter.close}</p>}
-            </div>
-          </Step>
-
-          <div className="actions">
-            <button className="primary" onClick={send}>
-              💌 음악편지 보내기
-            </button>
-          </div>
-          {sent && (
-            <p className="success">
-              ✓ {sent.message} (공유 링크: <code>{sent.shareUrl}</code>)
-            </p>
-          )}
+          </details>
         </section>
       )}
 
       <footer className="foot">
-        Music Letter · 감정 → 가사 → 음악 → 그림 → 영상 → 편지 파이프라인 · v0.1
+        Music Letter · 감정 → 가사 → 음악 → 그림 → 편지 → 이메일 발송 · v0.2
       </footer>
     </div>
   );

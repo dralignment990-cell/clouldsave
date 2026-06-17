@@ -12,6 +12,7 @@ import { randomUUID } from "node:crypto";
 import { buildPlan } from "./generators.js";
 import { generateMusic, musicConfig } from "./music.js";
 import { buildPlanWithClaude, hasClaudeKey } from "./claude.js";
+import { sendEmail, renderEmailHtml, hasSmtp } from "./mailer.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -112,24 +113,45 @@ app.post("/api/music", async (req, res) => {
 
 /**
  * POST /api/send
- * body: { to, plan, mediaUrls }
- * 데모: outbox.json 에 저장하고 공유 링크 반환.
- * INTEGRATION: 이메일(SendGrid)/카카오 알림톡/SMS 로 교체.
+ * body: { email, title, emotion, imageUrl, audioUrl, letter }
+ * SMTP 환경변수 있으면 실제 이메일 발송, 없으면 미리보기 HTML 반환 + outbox 저장.
  */
-app.post("/api/send", (req, res) => {
-  const { to = "", plan = null } = req.body || {};
-  if (!to) return res.status(400).json({ error: "받는 사람(to)이 필요합니다." });
+app.post("/api/send", async (req, res) => {
+  const { email = "", title = "음악편지", emotion = "", imageUrl = "", audioUrl = "", letter = null } =
+    req.body || {};
+  if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+    return res.status(400).json({ error: "올바른 이메일 주소가 필요합니다." });
+  }
+  const html = renderEmailHtml({ title, emotion, imageUrl, audioUrl, letter });
+  const subject = `🎵 음악편지 — ${title}`;
+
+  let result;
+  try {
+    result = await sendEmail({ to: email, subject, html });
+  } catch (e) {
+    return res.status(500).json({ error: `이메일 발송 실패: ${e.message}` });
+  }
+
+  // 기록 보관
   const id = randomUUID();
-  const record = { id, to, plan, sentAt: new Date().toISOString() };
   let outbox = [];
   try {
     outbox = JSON.parse(fs.readFileSync(OUTBOX, "utf8"));
   } catch {
     /* 첫 발송 */
   }
-  outbox.push(record);
+  outbox.push({ id, email, title, sentAt: new Date().toISOString(), sent: result.sent });
   fs.writeFileSync(OUTBOX, JSON.stringify(outbox, null, 2));
-  res.json({ ok: true, id, shareUrl: `/letter/${id}`, message: `${to} 에게 음악편지를 보냈습니다.` });
+
+  res.json({
+    ok: true,
+    id,
+    sent: result.sent,
+    message: result.sent
+      ? `${email} 으로 음악편지를 보냈습니다.`
+      : `미리보기를 만들었습니다. (SMTP 미설정 — 서버에 SMTP_* 환경변수를 넣으면 실제 발송됩니다)`,
+    previewHtml: result.preview || null,
+  });
 });
 
 // 프로덕션: 빌드된 client 제공

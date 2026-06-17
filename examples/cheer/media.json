@@ -1,25 +1,19 @@
 {
-  "note": "시연(응원/새로운 시작)으로 실제 생성한 미디어. egress 정책상 URL을 기록.",
+  "note": "음악편지(응원/새로운 시작) 실제 생성 미디어. 동영상은 포맷에서 제외.",
   "emotion": "응원 / 새로운 시작",
   "title": "다시, 시작",
   "image": {
     "model": "nano_banana_pro",
-    "aspect_ratio": "16:9",
+    "note": "제목 텍스트가 박힌 커버 (4:5 포스터)",
+    "aspect_ratio": "4:5",
     "resolution": "2k",
-    "job_id": "3afc24dd-52fe-4d98-80e6-0491a577affe",
-    "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Ehb0pJX3jTx2KyxLmSmtUAC7t1/hf_20260617_055528_3afc24dd-52fe-4d98-80e6-0491a577affe.png"
+    "job_id": "750aae2e-82e5-4767-a711-25a5c5ac274c",
+    "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Ehb0pJX3jTx2KyxLmSmtUAC7t1/hf_20260617_055911_750aae2e-82e5-4767-a711-25a5c5ac274c.png"
   },
   "audio": {
     "engine": "higgsfield:sonilo_music",
     "duration": 30,
     "job_id": "8a92a480-b676-4b4c-ba9a-5a87f12f30a5",
     "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Ehb0pJX3jTx2KyxLmSmtUAC7t1/hf_20260617_055530_8a92a480-b676-4b4c-ba9a-5a87f12f30a5.m4a"
-  },
-  "video": {
-    "model": "kling2_6",
-    "duration": 5,
-    "sound": true,
-    "job_id": "8bbb3a70-94c0-4e8a-be3d-55c6ab753cc5",
-    "url": null
   }
 }

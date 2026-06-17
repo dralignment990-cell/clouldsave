@@ -93,8 +93,29 @@ pre { margin: 0; padding: 14px; white-space: pre-wrap; word-break: break-word; f
 .media { border-radius: 14px; overflow: hidden; border: 1px solid var(--line); margin-bottom: 10px; }
 .media img, .media video { width: 100%; display: block; }
 
-.audio { margin-top: 10px; }
+.audio { margin-top: 12px; }
 .audio audio { width: 100%; }
+
+/* 완성된 음악편지 카드 */
+.postcard { margin-bottom: 8px; }
+.cover { position: relative; border-radius: 16px; overflow: hidden; border: 1px solid var(--line);
+  box-shadow: 0 18px 50px rgba(0,0,0,.4); }
+.cover img { width: 100%; display: block; }
+.cover-empty { width: 100%; aspect-ratio: 4/5; background: #11192b; }
+.cover-text { position: absolute; inset: 0; display: flex; flex-direction: column;
+  justify-content: flex-end; align-items: center; text-align: center;
+  padding: 26px; background: linear-gradient(to top, rgba(8,11,18,.72) 0%, rgba(8,11,18,.15) 45%, transparent 70%); }
+.cover-emotion { color: var(--amber); font-size: 13px; letter-spacing: .1em; margin-bottom: 6px; }
+.cover-title { font-size: 30px; font-weight: 800; letter-spacing: -.5px;
+  text-shadow: 0 2px 14px rgba(0,0,0,.55); }
+
+.sendbox { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); }
+.send-row { display: flex; gap: 10px; margin-top: 6px; }
+.send-row input { flex: 1; }
+.send-row .primary { white-space: nowrap; }
+
+.prompts { margin-top: 18px; }
+.prompts summary { cursor: pointer; color: var(--muted); font-size: 13px; padding: 8px 0; }
 
 .letter {
   background: linear-gradient(180deg, #20283f, #1a2136);
