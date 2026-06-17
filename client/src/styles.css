@@ -1,0 +1,105 @@
+:root {
+  --bg: #0e1320;
+  --bg2: #161d2f;
+  --card: #1b2238;
+  --ink: #eef1f8;
+  --muted: #97a0b8;
+  --amber: #f3c178;
+  --teal: #6fd3c7;
+  --accent: #8fa7ff;
+  --line: #2a3450;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Pretendard", -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+  background: radial-gradient(1200px 600px at 50% -10%, #243152 0%, var(--bg) 55%);
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+.app { max-width: 760px; margin: 0 auto; padding: 32px 20px 80px; }
+
+.hero { text-align: center; padding: 32px 0 8px; }
+.hero h1 { font-size: 40px; margin: 0; letter-spacing: -1px; }
+.hero p { color: var(--muted); margin: 8px 0 0; }
+
+.card {
+  background: linear-gradient(180deg, var(--card), var(--bg2));
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 24px;
+  margin-top: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+}
+.card h2 { margin: 0 0 14px; font-size: 20px; }
+
+label { display: block; font-size: 13px; color: var(--muted); margin: 14px 0 6px; }
+input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: #0f1626;
+  color: var(--ink);
+  font-size: 15px;
+}
+input:focus { outline: none; border-color: var(--accent); }
+
+.presets { display: flex; gap: 8px; flex-wrap: wrap; }
+.chip {
+  border: 1px solid var(--line);
+  background: #11192b;
+  color: var(--ink);
+  padding: 8px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 13px;
+}
+.chip:hover { border-color: var(--accent); }
+
+.actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
+button { cursor: pointer; font-size: 15px; border-radius: 12px; padding: 12px 18px; border: none; }
+.primary { background: linear-gradient(135deg, var(--accent), #6f8bff); color: #0b1020; font-weight: 700; }
+.primary:disabled { opacity: 0.5; cursor: default; }
+.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+.ghost:hover { border-color: var(--teal); }
+
+.result h2 { font-size: 24px; }
+.muted { color: var(--muted); font-size: 14px; }
+.error { color: #ff8a8a; margin-top: 12px; }
+.success { color: var(--teal); margin-top: 14px; }
+
+.step { display: flex; gap: 14px; padding: 18px 0; border-top: 1px solid var(--line); }
+.step-num {
+  flex: 0 0 32px; height: 32px; border-radius: 50%;
+  background: var(--accent); color: #0b1020; font-weight: 800;
+  display: grid; place-items: center;
+}
+.step-body { flex: 1; min-width: 0; }
+.step-body h3 { margin: 4px 0 10px; font-size: 16px; }
+
+.block { background: #0f1626; border: 1px solid var(--line); border-radius: 12px; margin: 10px 0; overflow: hidden; }
+.block-head {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 8px 12px; font-size: 12px; color: var(--muted);
+  background: #121a2c; border-bottom: 1px solid var(--line);
+}
+.copy { background: transparent; color: var(--accent); border: 1px solid var(--line); padding: 4px 10px; font-size: 12px; border-radius: 8px; }
+pre { margin: 0; padding: 14px; white-space: pre-wrap; word-break: break-word; font-size: 13px; color: #d7def0; max-height: 360px; overflow: auto; }
+
+.media { border-radius: 14px; overflow: hidden; border: 1px solid var(--line); margin-bottom: 10px; }
+.media img, .media video { width: 100%; display: block; }
+
+.letter {
+  background: linear-gradient(180deg, #20283f, #1a2136);
+  border: 1px solid var(--line); border-radius: 14px; padding: 22px;
+  font-family: "Nanum Myeongjo", "Noto Serif KR", serif;
+}
+.letter-open { font-weight: 700; margin: 0 0 12px; }
+.letter-body { white-space: pre-wrap; margin: 0 0 16px; }
+.letter-close { color: var(--amber); margin: 0; text-align: right; }
+
+.foot { text-align: center; color: var(--muted); font-size: 12px; margin-top: 40px; }

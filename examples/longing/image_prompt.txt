@@ -1,0 +1,38 @@
+============================================================
+IMAGE PROMPT — "보고 싶다는 말" 앨범/편지 커버
+감정: 그리움 / 보고싶음
+모델 추천: Nano Banana Pro (2k, 16:9) 또는 Soul / Midjourney
+============================================================
+
+[ MAIN PROMPT (EN) ]
+------------------------------------------------------------
+A cinematic, deeply emotional photograph evoking longing and
+missing someone far away. A young woman stands alone beside a
+large rain-streaked window at dusk, soft warm lamplight glowing
+behind her, gazing out at a city dissolving into bokeh lights.
+She holds a warm cup of tea with both hands; an empty chair sits
+beside her. Muted teal-and-amber color grade, gentle film grain,
+shallow depth of field, melancholic yet tender mood, blue-hour
+atmosphere, 35mm film aesthetic, soft natural light, quiet and
+poetic, no text.
+
+[ 한글 의도 ]
+------------------------------------------------------------
+비 내리는 창가에 홀로 선 사람, 멀리 흐릿하게 번지는 도시 불빛,
+따뜻한 찻잔, 비어 있는 옆자리 의자 → "함께 있고 싶지만 떨어져 있는"
+그리움을 한 장면에 담음. 따뜻함(amber)과 외로움(teal)의 대비.
+
+[ PARAMETERS ]
+------------------------------------------------------------
+aspect_ratio : 16:9   (영상 변환 대비)
+resolution   : 2k
+style        : cinematic, film grain, shallow DOF
+negative     : text, watermark, harsh lighting, oversaturated,
+               extra fingers, distorted face
+
+[ VARIATIONS (분위기 바꾸기) ]
+------------------------------------------------------------
+• 새벽 버전: "soft pink dawn light, mist over the city, hopeful"
+• 겨울 버전: "frosted window, snow falling outside, cozy knit sweater"
+• 장거리 연애: "two phone screens glowing, same moon in both windows,
+  split composition"

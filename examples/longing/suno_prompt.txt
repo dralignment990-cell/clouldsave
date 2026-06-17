@@ -1,0 +1,31 @@
+============================================================
+SUNO PROMPT — "보고 싶다는 말 (I Miss You)"
+감정: 그리움 / 보고싶음
+============================================================
+
+[ STYLE / GENRE 입력란 ]  ← Suno "Style of Music"에 붙여넣기
+------------------------------------------------------------
+warm acoustic ballad, modern K-ballad, soft city-pop influence,
+intimate male-or-female vocal, fingerpicked acoustic guitar,
+gentle felt piano, warm analog synth pad, subtle vinyl crackle,
+brushed drums entering in chorus, lush string section in bridge,
+emotional, nostalgic, longing, tender, late-night, cinematic,
+72 BPM, A minor to C major, reverb-soaked, dreamy, heartfelt
+
+[ TITLE ]
+------------------------------------------------------------
+보고 싶다는 말 (I Miss You)
+
+[ LYRICS 입력란 ]  ← lyrics.md 의 [Intro]~[Outro] 전체를 그대로 붙여넣기
+------------------------------------------------------------
+(구조 태그 [Verse]/[Chorus] 등은 그대로 두면 Suno가 곡 구성을 인식합니다)
+
+------------------------------------------------------------
+TIP
+------------------------------------------------------------
+• Suno v4 / v4.5 기준. "Custom Mode" 켜고 Style/Lyrics 분리 입력.
+• 보컬 성별을 정하고 싶으면 Style 맨 앞에 "female vocal" 또는
+  "male vocal" 추가.
+• 더 잔잔하게: "brushed drums" 빼고 "no drums, sparse arrangement".
+• 더 풍성하게: "build to emotional climax in final chorus".
+• Exclude Styles(제외): "aggressive, edm drop, autotune, rap".

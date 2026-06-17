@@ -1,0 +1,13 @@
+{
+  "name": "music-letter",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Music Letter — 감정/상황을 받아 가사·음악·이미지·영상·편지를 만들어 보내는 앱",
+  "scripts": {
+    "install:all": "cd server && npm install && cd ../client && npm install",
+    "dev:server": "cd server && npm run dev",
+    "dev:client": "cd client && npm run dev",
+    "build": "cd client && npm install && npm run build",
+    "start": "cd server && npm install && npm start"
+  }
+}

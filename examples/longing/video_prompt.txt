@@ -1,0 +1,38 @@
+============================================================
+VIDEO PROMPT — "보고 싶다는 말" 무빙 커버
+감정: 그리움 / 보고싶음
+모델 추천: Kling 2.6 (image-to-video, start_image = 생성된 이미지)
+============================================================
+
+[ MAIN PROMPT (EN) ]
+------------------------------------------------------------
+Slow, gentle cinematic push-in toward a young woman standing by
+a large rain-streaked window at dusk. Raindrops slowly trickle
+down the glass, city bokeh lights softly twinkle and breathe in
+the background, faint steam rises and curls from her warm tea
+cup, a few strands of her hair drift gently, her shoulders rise
+with a soft, longing breath. Tender, melancholic, nostalgic
+atmosphere. Subtle handheld micro-movement, shallow depth of
+field, warm amber lamplight, cool blue-hour tones, film grain.
+Ambient sound of soft rain on glass, distant muffled city hum,
+faint warm piano notes.
+
+[ 한글 의도 ]
+------------------------------------------------------------
+정지 이미지에 "숨"을 불어넣기. 카메라는 아주 천천히 다가가고(push-in),
+빗방울·김·머리카락·어깨의 미세한 움직임으로 그리움의 정서를 살림.
+오디오는 빗소리 + 도시의 먼 웅성임 + 희미한 피아노.
+
+[ PARAMETERS ]
+------------------------------------------------------------
+start_image  : 생성된 커버 이미지 (image-to-video)
+duration     : 5s (또는 10s)
+aspect_ratio : 16:9
+sound        : on (앰비언트)
+motion       : 느리고 절제된 카메라, 과한 움직임 금지
+
+[ TIP ]
+------------------------------------------------------------
+• 영상 위에 Suno 음악을 입히는 게 최종 형태 (편집 단계에서 합성).
+• 더 길게: 10s로 늘리고 마지막에 "camera slowly settles, holds still".
+• 루프용: "seamless loop, ends where it begins" 추가.
