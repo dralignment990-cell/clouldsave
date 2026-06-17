@@ -11,6 +11,7 @@ import { fileURLToPath } from "node:url";
 import { randomUUID } from "node:crypto";
 import { buildPlan } from "./generators.js";
 import { generateMusic, musicConfig } from "./music.js";
+import { buildPlanWithClaude, hasClaudeKey } from "./claude.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -32,13 +33,22 @@ app.get("/api/health", (_req, res) => res.json({ ok: true, ts: Date.now() }));
  * body: { emotion, situation, recipient, tone }
  * → 6단계 산출물(plan) 반환
  */
-app.post("/api/plan", (req, res) => {
+app.post("/api/plan", async (req, res) => {
   const { emotion = "", situation = "", recipient = "", tone = "" } = req.body || {};
   if (!emotion && !situation) {
     return res.status(400).json({ error: "emotion 또는 situation 중 하나는 필요합니다." });
   }
+  // ANTHROPIC_API_KEY 있으면 Claude로 매번 새 창작, 실패하면 템플릿으로 폴백.
+  if (hasClaudeKey) {
+    try {
+      const plan = await buildPlanWithClaude({ emotion, situation, recipient });
+      return res.json(plan);
+    } catch (e) {
+      console.warn("Claude 생성 실패 → 템플릿 폴백:", e.message);
+    }
+  }
   const plan = buildPlan({ emotion, situation, recipient, tone });
-  res.json(plan);
+  res.json({ ...plan, meta: { ...plan.meta, source: "template" } });
 });
 
 /**

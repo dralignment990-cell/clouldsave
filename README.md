@@ -84,9 +84,19 @@ npm run dev:client
 cp server/.env.example server/.env   # SUNO_API_KEY 입력 (선택)
 ```
 
+## ✍️ 가사·편지 생성 (Claude API 연동, 구현됨)
+
+`POST /api/plan` 은 **`ANTHROPIC_API_KEY` 가 있으면 `claude-opus-4-8`** 로
+감정/상황에 맞는 가사·Suno스타일·이미지/영상 프롬프트·편지를 **매번 새로 창작**합니다.
+(`server/claude.js`, 구조화 출력으로 JSON 스키마 강제) 키가 없으면 템플릿
+생성기(`server/generators.js`)로 자동 폴백합니다.
+
+```bash
+cp server/.env.example server/.env   # ANTHROPIC_API_KEY 입력 (선택)
+```
+
 ## 다음 단계 (연동 예정)
 
-- **가사 / 편지** → Anthropic Claude API (`claude-opus-4-8`) 로 매번 새 창작
 - **이미지** → Higgsfield `generate_image` (`nano_banana_pro`)
 - **영상** → Higgsfield `generate_video` (`kling2_6`, start_image)
 - **발송** → 이메일(SendGrid) / 카카오 알림톡 / SMS
