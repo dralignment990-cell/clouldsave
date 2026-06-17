@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>💌 음악편지 — 보고 싶다는 말</title>
+<style>
+  :root{
+    --bg:#0e1320; --card:#1b2238; --bg2:#161d2f; --ink:#eef1f8;
+    --muted:#97a0b8; --amber:#f3c178; --teal:#6fd3c7; --accent:#8fa7ff; --line:#2a3450;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+    background:radial-gradient(1200px 600px at 50% -10%,#243152 0%,var(--bg) 55%);color:var(--ink);line-height:1.7}
+  .wrap{max-width:680px;margin:0 auto;padding:28px 18px 70px}
+  .top{text-align:center;padding:16px 0 8px}
+  .top .from{color:var(--muted);font-size:13px;letter-spacing:.08em}
+  .top h1{font-size:30px;margin:6px 0 0;letter-spacing:-.5px}
+  .cover{margin:22px 0;border-radius:18px;overflow:hidden;border:1px solid var(--line);
+    box-shadow:0 24px 60px rgba(0,0,0,.45);position:relative}
+  .cover img,.cover video{width:100%;display:block}
+  .cover .tag{position:absolute;left:14px;bottom:12px;background:rgba(14,19,32,.7);
+    backdrop-filter:blur(6px);padding:6px 12px;border-radius:999px;font-size:12px;color:var(--amber)}
+  .card{background:linear-gradient(180deg,var(--card),var(--bg2));border:1px solid var(--line);
+    border-radius:18px;padding:24px;margin:16px 0}
+  .card h2{margin:0 0 12px;font-size:18px}
+  .letter{font-family:"Nanum Myeongjo","Noto Serif KR",serif;white-space:pre-wrap}
+  .letter .open{font-weight:700;margin-bottom:12px}
+  .letter .close{color:var(--amber);text-align:right;margin-top:18px}
+  .lyrics{white-space:pre-wrap;color:#d7def0;font-size:14px;
+    background:#0f1626;border:1px solid var(--line);border-radius:12px;padding:16px;max-height:340px;overflow:auto}
+  .chorus{color:var(--teal)}
+  .play{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--accent),#6f8bff);
+    color:#0b1020;font-weight:700;padding:12px 18px;border-radius:12px;text-decoration:none;font-size:15px}
+  .muted{color:var(--muted);font-size:13px}
+  .placeholder{display:grid;place-items:center;aspect-ratio:16/9;background:#11192b;color:var(--muted);
+    text-align:center;font-size:14px;padding:20px}
+  .foot{text-align:center;color:var(--muted);font-size:12px;margin-top:30px}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div class="from">🎵 누군가 당신에게 음악편지를 보냈어요</div>
+      <h1>보고 싶다는 말</h1>
+      <div class="muted">감정 · 그리움 / 보고싶음</div>
+    </div>
+
+    <!-- 무빙 커버: 영상 URL이 채워지면 <video>로, 아니면 정지 이미지 -->
+    <div class="cover">
+      <img id="cover-img"
+           src="https://d8j0ntlcm91z4.cloudfront.net/user_3Ehb0pJX3jTx2KyxLmSmtUAC7t1/hf_20260617_052126_c8d6af94-bf1f-47c2-91ed-f6777b4ddad9.png"
+           alt="보고 싶다는 말 — 커버" />
+      <span class="tag">🌙 그리움</span>
+    </div>
+
+    <div class="card">
+      <h2>💌 편지</h2>
+      <div class="letter"><span class="open">보고 싶은 너에게,</span>요즘 네 생각을 참 많이 해. 거리가 멀어 자주 못 보지만,
+그래서 더 또렷하게 네가 소중하다는 걸 느껴.
+혹시 많이 지쳐 있다면, 정말 잘 버티고 있다고 말해주고 싶어.
+힘들 땐 이 노래랑 영상을 틀어놓고, 잠깐 나랑 같은 하늘 아래
+있다고 생각해줘. 곧 만나러 갈게. 보고 싶어, 많이.<div class="close">— 언제나 네 편인 사람이.</div></div>
+    </div>
+
+    <div class="card">
+      <h2>🎧 노래 — 보고 싶다는 말</h2>
+      <p class="muted">아래는 가사예요. (음악은 Suno 프롬프트로 생성합니다)</p>
+      <div class="lyrics">[Verse 1]
+창밖에 비가 내려 너의 도시도 그럴까
+식어버린 찻잔처럼 하루가 또 저물어
+
+<span class="chorus">[Chorus]
+보고 싶다는 말, 이 한마디가 어려워서
+밤하늘에 적어 너에게 보내
+멀리 있어도 같은 달을 보잖아
+그 빛이 너에게 닿기를, 닿기를</span>
+
+[Bridge]
+혹시 오늘 많이 힘들었다면
+이 노래가 너의 어깨를 토닥이길</div>
+    </div>
+
+    <div class="card">
+      <h2>🎬 무빙 커버 영상</h2>
+      <div class="placeholder" id="video-slot">
+        영상은 Higgsfield에서 렌더링 완료 후 이 자리에 재생됩니다.<br>
+        (media.json 의 video URL을 넣으면 자동 표시)
+      </div>
+    </div>
+
+    <div class="foot">Music Letter · 감정을 노래·그림·영상·편지로 · v0.1</div>
+  </div>
+</body>
+</html>
