@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>💌 음악편지 — 다시, 시작</title>
+<style>
+  :root{
+    --bg:#0f1410; --card:#19231a; --bg2:#141d16; --ink:#f1f5ee;
+    --muted:#9fb29c; --gold:#f3c969; --green:#86d49a; --accent:#ffcf7a; --line:#2c3a2e;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+    background:radial-gradient(1200px 600px at 50% -10%,#314a2e 0%,var(--bg) 55%);color:var(--ink);line-height:1.7}
+  .wrap{max-width:680px;margin:0 auto;padding:28px 18px 70px}
+  .top{text-align:center;padding:16px 0 8px}
+  .top .from{color:var(--muted);font-size:13px;letter-spacing:.08em}
+  .top h1{font-size:30px;margin:6px 0 0;letter-spacing:-.5px}
+  .cover{margin:22px 0;border-radius:18px;overflow:hidden;border:1px solid var(--line);
+    box-shadow:0 24px 60px rgba(0,0,0,.45);position:relative}
+  .cover img{width:100%;display:block}
+  .cover .tag{position:absolute;left:14px;bottom:12px;background:rgba(15,20,16,.7);
+    backdrop-filter:blur(6px);padding:6px 12px;border-radius:999px;font-size:12px;color:var(--gold)}
+  .card{background:linear-gradient(180deg,var(--card),var(--bg2));border:1px solid var(--line);
+    border-radius:18px;padding:24px;margin:16px 0}
+  .card h2{margin:0 0 12px;font-size:18px}
+  .letter{font-family:"Nanum Myeongjo","Noto Serif KR",serif;white-space:pre-wrap}
+  .letter .open{font-weight:700;margin-bottom:12px}
+  .letter .close{color:var(--gold);text-align:right;margin-top:18px}
+  .lyrics{white-space:pre-wrap;color:#dfeada;font-size:14px;
+    background:#12190f;border:1px solid var(--line);border-radius:12px;padding:16px}
+  .chorus{color:var(--green)}
+  .muted{color:var(--muted);font-size:13px}
+  audio{width:100%;margin:6px 0 14px}
+  .placeholder{display:grid;place-items:center;aspect-ratio:16/9;background:#12190f;color:var(--muted);
+    text-align:center;font-size:14px;padding:20px}
+  .foot{text-align:center;color:var(--muted);font-size:12px;margin-top:30px}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div class="from">🎵 누군가 당신에게 음악편지를 보냈어요</div>
+      <h1>다시, 시작</h1>
+      <div class="muted">감정 · 응원 / 새로운 시작</div>
+    </div>
+
+    <div class="cover">
+      <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3Ehb0pJX3jTx2KyxLmSmtUAC7t1/hf_20260617_055528_3afc24dd-52fe-4d98-80e6-0491a577affe.png"
+           alt="다시, 시작 — 커버" />
+      <span class="tag">🌄 응원</span>
+    </div>
+
+    <div class="card">
+      <h2>💌 편지</h2>
+      <div class="letter"><span class="open">민준에게,</span>새로운 길 앞에서 떨리는 거, 그게 네가 진심이라는 증거야.
+잘하지 않아도 괜찮아. 그냥 한 걸음만 내디뎌 봐.
+넘어지면 손 잡아줄게. 멀리서도 늘 네 편으로 응원하고 있어.
+너는 생각보다 훨씬 강한 사람이야.<div class="close">— 언제나 네 편인 사람이.</div></div>
+    </div>
+
+    <div class="card">
+      <h2>🎧 노래 — 다시, 시작</h2>
+      <audio controls
+        src="https://d8j0ntlcm91z4.cloudfront.net/user_3Ehb0pJX3jTx2KyxLmSmtUAC7t1/hf_20260617_055530_8a92a480-b676-4b4c-ba9a-5a87f12f30a5.m4a"></audio>
+      <p class="muted">실제 생성한 음악 (Higgsfield sonilo_music, 96 BPM, C major). 가사 보컬 곡은 Suno 게이트웨이 키 연동 시.</p>
+      <div class="lyrics">[Verse 1]
+어제의 무게는 내려놓아도 돼
+오늘의 너는 어제보다 단단해
+
+<span class="chorus">[Chorus]
+괜찮아 다시 시작이야
+넘어진 만큼 더 멀리 갈 거야
+해가 떠오르듯 너도 떠올라
+이 길의 끝엔 네가 있어</span>
+
+[Outro]
+한 걸음, 또 한 걸음, 함께 갈게</div>
+    </div>
+
+    <div class="card">
+      <h2>🎬 무빙 커버 영상</h2>
+      <div class="placeholder">영상은 Higgsfield에서 렌더링 완료 후 이 자리에 재생됩니다.</div>
+    </div>
+
+    <div class="foot">Music Letter · 감정을 노래·그림·영상·편지로 · v0.1</div>
+  </div>
+</body>
+</html>
